@@ -1,0 +1,17 @@
+shared:
+  image: node:20
+  annotations:
+    screwdriver.cd/virtualJob: true
+  steps:
+    - init: echo 'init'
+jobs:
+  component:
+    requires: [~pr, ~commit, ~tag]
+  publish:
+    requires: [ component ]
+  deploy:
+    requires: [ publish ]
+  test:
+    requires: [ deploy ]
+  certify:
+    requires: [ test ]
